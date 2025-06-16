@@ -6,7 +6,7 @@
 
 ## 🌐 Live Website
 
-Visit the site here: [https://yourusername.github.io/TheVisaScholar](https://yourusername.github.io/TheVisaScholar](https://madhavai2013.github.io/TheVisaScholar/)
+Visit the site here: (https://madhavai2013.github.io/TheVisaScholar/)
 
 ---
 
