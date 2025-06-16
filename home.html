@@ -1,0 +1,1449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Visa Scholar - Immigration Visa Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --gold: #FFD700;
+            --dark-gold: #D4AF37;
+            --black: #000000;
+            --dark-gray: #121212;
+            --light-gray: #1E1E1E;
+            --gold-gradient: linear-gradient(135deg, #4B0101, #FFD700, #B8860B, #4B0101);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Georgia', sans-serif;
+        }
+
+        body {
+            background-color: var(--black);
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* Auth Modal Styles */
+        .auth-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .auth-container {
+            background: linear-gradient(135deg, var(--black) 0%, var(--dark-gray) 100%);
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+            border: 2px solid var(--gold);
+            box-shadow: 0 0 20px var(--gold);
+            position: relative;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .auth-header img {
+            height: 50px;
+            margin-bottom: 1rem;
+        }
+
+        .auth-header h2 {
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .auth-form input {
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--gold);
+            border-radius: 5px;
+            background-color: var(--dark-gray);
+            color: white;
+        }
+
+        .auth-form button {
+            padding: 0.8rem;
+            background-color: var(--gold);
+            color: var(--black);
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .auth-form button:hover {
+            background-color: var(--dark-gold);
+        }
+
+        .auth-toggle {
+            text-align: center;
+            margin-top: 1rem;
+            color: var(--gold);
+            cursor: pointer;
+        }
+
+        .close-auth {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: var(--gold);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(to right, var(--black) 0%, var(--dark-gray) 50%, var(--black) 100%);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--gold);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-container img {
+            height: 50px;
+            margin-right: 1rem;
+        }
+
+        .logo-text h1 {
+            color: var(--gold);
+            font-size: 1.5rem;
+        }
+
+        .logo-text p {
+            font-size: 0.8rem;
+            color: white;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        nav ul li a:hover {
+            color: var(--gold);
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--gold);
+            transition: width 0.3s;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            color: var(--gold);
+            cursor: pointer;
+        }
+
+        .user-profile span {
+            margin-left: 0.5rem;
+        }
+
+        .user-menu {
+            display: none;
+            position: absolute;
+            top: 70px;
+            right: 20px;
+            background-color: var(--dark-gray);
+            border: 1px solid var(--gold);
+            border-radius: 5px;
+            padding: 0.5rem;
+            z-index: 10;
+        }
+
+        .user-menu a {
+            display: block;
+            color: white;
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+        }
+
+        .user-menu a:hover {
+            color: var(--gold);
+            background-color: var(--light-gray);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Section Styles */
+        section {
+            padding: 2rem 1rem;
+            min-height: 80vh;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .section-title {
+            color: var(--gold);
+            text-align: center;
+            margin-bottom: 1rem;
+            font-size: 2.5rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 3px;
+            background-color: var(--gold);
+            margin: 0.5rem auto;
+        }
+
+        /* Home Section */
+        #home {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://i.postimg.cc/fTp3F1Lf/Flux-Dev-A-stunning-view-of-the-illuminated-Tower-Bridge-in-Lo-2.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+        }
+
+        .home-content {
+            max-width: 800px;
+        }
+
+        .home-content h1 {
+            font-size: 4rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .home-content h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .home-content h3 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--gold);
+        }
+
+        .welcome-gif {
+            margin: 2rem auto 2rem auto;
+            height: 100px;
+            display: block;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--gold-gradient);
+            color: var(--black);
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            margin: 1rem 0.5rem;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            animation: none;
+        }
+
+        .btn:hover {
+            background-color: var(--dark-gold);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.3);
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-20px);
+            }
+            60% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .btn.bounce {
+            animation: bounce 1s;
+        }
+
+        /* About Section */
+        .about-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+
+        .about-text {
+            flex: 1;
+            min-width: 300px;
+            padding: 1rem;
+        }
+
+        .about-image {
+            flex: 1;
+            min-width: 100px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .about-image img {
+            max-width: 70%;
+            border-radius: 10px;
+            border: 2px solid var(--gold);
+            transition: transform 0.5s;
+        }
+
+        .about-image img:hover {
+            transform: scale(1.05);
+        }
+
+        .team-section {
+            margin-top: 3rem;
+        }
+
+        .team-members {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .team-member {
+            text-align: center;
+            width: 200px;
+        }
+
+        .team-member img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--gold);
+            margin-bottom: 1rem;
+            transition: transform 0.3s;
+        }
+
+        .team-member img:hover {
+            transform: scale(1.1);
+        }
+
+        .team-member h3 {
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Countries Section */
+        .countries-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .country-card {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--dark-gray);
+            border: 2px solid var(--gold);
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .country-card:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px var(--gold);
+        }
+
+        .country-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        .country-flag {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .country-name {
+            position: relative;
+            z-index: 2;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        /* Courses Section */
+        .courses-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .course-card {
+            background-color: var(--dark-gray);
+            border-radius: 10px;
+            padding: 1rem;
+            width: 100%;
+            max-width: 500px;
+            border: 1px solid var(--gold);
+            transition: transform 0.3s;
+        }
+
+        .course-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.2);
+        }
+
+        .course-card h3 {
+            color: var(--gold);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        /* Achievements Section */
+        .achievements-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 7rem;
+        }
+
+        .achievement-card {
+            background-color: var(--dark-gray);
+            border-radius: 10px;
+            padding: 1.5rem;
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid var(--gold);
+            text-align: center;
+        }
+
+        .achievement-card h3 {
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        /* Find Us Section */
+        .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 9rem;
+        }
+
+        .contact-card {
+            background-color: var(--dark-gray);
+            border-radius: 10px;
+            padding: 1.5rem;
+            width: 100%;
+            max-width: 300px;
+            border: 1px solid var(--gold);
+            text-align: center;
+        }
+
+        .contact-card h3 {
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        .contact-card p {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Apply Section */
+        .apply-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: var(--dark-gray);
+            padding: 3rem;
+            border-radius: 10px;
+            border: 1px solid var(--gold);
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--gold);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--gold);
+            border-radius: 5px;
+            background-color: var(--black);
+            color: white;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+        }
+
+        /* Chatbot Styles */
+        .chatbot-container {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px;
+            max-width: 90%;
+            background-color: var(--dark-gray);
+            border-radius: 10px;
+            border: 2px solid var(--gold);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            z-index: 1000;
+            flex-direction: column;
+            max-height: 500px;
+        }
+
+        .chatbot-header {
+            background-color: var(--black);
+            color: var(--gold);
+            padding: 1rem;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--gold);
+        }
+
+        .chatbot-header h3 {
+            margin: 0;
+        }
+
+        .close-chatbot {
+            background: none;
+            border: none;
+            color: var(--gold);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 0.8rem 1rem;
+            border-radius: 10px;
+            word-wrap: break-word;
+        }
+
+        .bot-message {
+            align-self: flex-start;
+            background-color: var(--light-gray);
+            color: var(--gold);
+            border: 1px solid var(--gold);
+        }
+
+        .user-message {
+            align-self: flex-end;
+            background-color: var(--gold);
+            color: var(--black);
+        }
+
+        .chatbot-input {
+            display: flex;
+            padding: 1rem;
+            border-top: 1px solid var(--gold);
+        }
+
+        .chatbot-input input {
+            flex: 1;
+            padding: 0.8rem;
+            border: 1px solid var(--gold);
+            border-radius: 5px 0 0 5px;
+            background-color: var(--black);
+            color: white;
+        }
+
+        .chatbot-input button {
+            padding: 0.8rem 1.2rem;
+            background-color: var(--gold);
+            color: var(--black);
+            border: none;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+
+        .chatbot-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: var(--gold);
+            color: var(--black);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            z-index: 999;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: var(--dark-gray);
+            padding: 2rem;
+            text-align: center;
+            border-top: 2px solid var(--gold);
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .footer-logo img {
+            height: 50px;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--gold);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-icons a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: var(--gold);
+        }
+
+        .copyright {
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            header {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .logo-container {
+                margin-bottom: 1rem;
+            }
+
+            nav ul {
+                position: fixed;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav ul li {
+                margin: 0.5rem 0;
+            }
+
+            .home-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .home-content h3 {
+                font-size: 1.8rem;
+            }
+
+            .about-content {
+                flex-direction: column;
+            }
+
+            .team-member {
+                width: 150px;
+            }
+
+            .country-card {
+                width: 120px;
+                height: 120px;
+            }
+
+            .chatbot-container {
+                width: 90%;
+                right: 5%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Auth Modal -->
+    <div class="auth-modal" id="authModal">
+        <div class="auth-container">
+            <span class="close-auth" id="closeAuth">&times;</span>
+            <div class="auth-header">
+                <img src="https://cdn.shopify.com/s/files/1/0506/5696/8898/files/logo_TVS.png?v=1746614106" alt="The Visa Scholar Logo">
+                <h2 id="authTitle">Login</h2>
+            </div>
+            <form class="auth-form" id="loginForm">
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
+            <form class="auth-form" id="signupForm" style="display: none;">
+                <input type="text" placeholder="Full Name" required>
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Password" required>
+                <input type="password" placeholder="Confirm Password" required>
+                <button type="submit">Sign Up</button>
+            </form>
+            <div class="auth-toggle" id="authToggle">
+                Don't have an account? Sign Up
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="logo-container">
+            <img src="https://cdn.shopify.com/s/files/1/0506/5696/8898/files/logo_TVS.png?v=1746614106" alt="The Visa Scholar Logo">
+            <div class="logo-text">
+                <h1>The Visa Scholar</h1>
+                <p>Immigration and Overseas Consultant</p>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="#countries">Countries</a></li>
+                <li><a href="courses.html">Courses</a></li>
+                <li><a href="#achievements">Achievements</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+                <li><a href="#apply">Apply</a></li>
+            </ul>
+        </nav>
+        <div class="user-profile" id="userProfile">
+            <i class="fas fa-user"></i>
+            <span id="usernameDisplay">Login</span>
+            <div class="user-menu" id="userMenu">
+                <a href="#" id="logoutBtn">Logout</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Home Section -->
+    <section id="home">
+        <div class="home-content">
+            <h1>The Visa Scholar</h1>
+            <h2>Immigration and Overseas Consultant</h2>
+            <h3>Welcomes You</h3>
+            <img src="https://img1.picmix.com/output/stamp/normal/3/0/7/2/552703_a96f2.gif" alt="Welcome GIF" class="welcome-gif">
+            <button class="btn" id="exploreBtn">Explore Our Services</button>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <h2 class="section-title">About Us</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <p>Welcome to The Visa Scholar, your trusted partner in immigration and overseas education. As a premier visa consultancy and education support center, we are dedicated to turning your dreams of studying, working, or settling abroad into reality. Our expertise spans immigration processes, overseas education consultancy, and skill-building courses like IELTS and PTE preparation.</p>
+                <p>With a commitment to excellence, we offer personalized guidance for smooth visa applications, enhancing your chances of success. Our certified consultants stay updated on the latest immigration policies to provide accurate and reliable advice, specializing in student visas, work permits, permanent residency applications, and citizenship processes for various countries.</p>
+                <p>At The Visa Scholar, we understand that every client is unique. That's why we craft tailored strategies to maximize your approval chances. From document preparation to interview coaching, our expert trainers and consultants provide unwavering support throughout your journey. Let us help you achieve your global aspirations!</p>
+                <div style="margin-top: 2rem;">
+                    <button onclick="window.location.href='about.html'" class="btn">Know More About Us</button>
+                    <button class="btn" id="chatbotBtn">ChatBot</button>
+                </div>
+            </div>
+            <div class="about-image">
+                <img src="https://i.postimg.cc/zfJvzzBp/Photo.jpg" alt="About The Visa Scholar">
+            </div>
+        </div>
+        <div class="team-section">
+            <h2 class="section-title">Our Team</h2>
+            <div class="team-members">
+                <div class="team-member">
+                    <img src="https://i.postimg.cc/q7zsJxg1/Whats-App-Image.jpg" alt="Parul Taneja">
+                    <h3>Parul Taneja</h3>
+                    <p>Managing Director</p>
+                </div>
+                <div class="team-member">
+                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Team Member">
+                    <h3>Rajiv Sharma</h3>
+                    <p>Visa Specialist</p>
+                </div>
+                <div class="team-member">
+                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Team Member">
+                    <h3>Priya Patel</h3>
+                    <p>Documentation Expert</p>
+                </div>
+                <div class="team-member">
+                    <img src="https://images.unsplash.com/photo-1552058544-f2b08422138a?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Team Member">
+                    <h3>Arjun Kapoor</h3>
+                    <p>Client Relations</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Countries Section -->
+    <section id="countries">
+        <h2 class="section-title">Popular Destinations</h2>
+        <div class="countries-grid">
+            <div class="country-card" data-country="canada">
+                <div class="country-flag" style="background-image: url('https://cdn.countryflags.com/thumbs/canada/flag-400.png');"></div>
+                <div class="country-name">Canada</div>
+            </div>
+            <div class="country-card" data-country="australia">
+                <div class="country-flag" style="background-image: url('https://cdn.countryflags.com/thumbs/australia/flag-400.png');"></div>
+                <div class="country-name">Australia</div>
+            </div>
+            <div class="country-card" data-country="usa">
+                <div class="country-flag" style="background-image: url('https://cdn.countryflags.com/thumbs/united-states-of-america/flag-400.png');"></div>
+                <div class="country-name">USA</div>
+            </div>
+            <div class="country-card" data-country="uk">
+                <div class="country-flag" style="background-image: url('https://cdn.countryflags.com/thumbs/united-kingdom/flag-400.png');"></div>
+                <div class="country-name">UK</div>
+            </div>
+            <div class="country-card" data-country="germany">
+                <div class="country-flag" style="background-image: url('https://cdn.countryflags.com/thumbs/germany/flag-400.png');"></div>
+                <div class="country-name">Germany</div>
+            </div>
+            <div class="country-card" data-country="new-zealand">
+                <div class="country-flag" style="background-image: url('https://cdn.countryflags.com/thumbs/new-zealand/flag-400.png');"></div>
+                <div class="country-name">New Zealand</div>
+            </div>
+            <div class="country-card" data-country="singapore">
+                <div class="country-flag" style="background-image: url('https://cdn.countryflags.com/thumbs/singapore/flag-400.png');"></div>
+                <div class="country-name">Singapore</div>
+            </div>
+            <div class="country-card" data-country="cyprus">
+                <div class="country-flag" style="background-image: url('https://png.pngtree.com/png-vector/20220510/ourmid/pngtree-round-country-flag-cyprus-png-image_4566344.png');"></div>
+                <div class="country-name">Cyprus</div>
+            </div>
+            <div class="country-card" data-country="france">
+                <div class="country-flag" style="background-image: url('https://cdn.countryflags.com/thumbs/france/flag-400.png');"></div>
+                <div class="country-name">France</div>
+            </div>
+            <div class="country-card" data-country="malta">
+                <div class="country-flag" style="background-image: url('https://cdn-icons-png.flaticon.com/512/197/197625.png');"></div>
+                <div class="country-name">Malta</div>
+            </div>
+            <div class="country-card" data-country="japan">
+                <div class="country-flag" style="background-image: url('https://static.vecteezy.com/system/resources/previews/011/571/356/non_2x/circle-flag-of-japan-free-png.png');"></div>
+                <div class="country-name">Japan</div>
+            </div>
+            <div class="country-card" data-country="italy">
+                <div class="country-flag" style="background-image: url('https://media.istockphoto.com/id/690489086/vector/italian-flag.jpg?s=612x612&w=0&k=20&c=kWZWChm94M--bl4uZgmY-tt-OuJQUvt1ujDp0OWSDp8=');"></div>
+                <div class="country-name">Italy</div>
+            </div>
+            <div class="country-card" data-country="sweden">
+                <div class="country-flag" style="background-image: url('https://cdn-icons-png.flaticon.com/512/197/197564.png');"></div>
+                <div class="country-name">Sweden</div>
+            </div>
+            <div class="country-card" data-country="netherlands">
+                <div class="country-flag" style="background-image: url('https://cdn-icons-png.flaticon.com/512/323/323275.png');"></div>
+                <div class="country-name">Netherlands</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Courses Section -->
+    <section id="courses">
+        <h2 class="section-title">Courses</h2>
+        <div class="courses-container">
+            <div class="course-card">
+                <h3>IELTS Preparation</h3>
+                <p>The International English Language Testing System (IELTS) is designed to help you work, study or migrate to a country where English is the native language. Our comprehensive IELTS preparation course covers all four modules: Listening, Reading, Writing, and Speaking.</p>
+                <p><strong>Course Features:</strong></p>
+                <ul>
+                    <li>40+ hours of intensive training</li>
+                    <li>Mock tests with detailed feedback</li>
+                    <li>Personalized study plan</li>
+                    <li>Expert trainers with 10+ years experience</li>
+                    <li>Flexible batch timings</li>
+                </ul>
+                <button onclick="window.location.href='courses.html'" class="btn">Know More About IELTS</button>
+            </div>
+            <div class="course-card">
+                <h3>PTE Academic</h3>
+                <p>Pearson Test of English (PTE) Academic is a computer-based academic English language test aimed at non-native English speakers wanting to study abroad. Our PTE course is designed to help you achieve your desired score efficiently.</p>
+                <p><strong>Course Features:</strong></p>
+                <ul>
+                    <li>35+ hours of comprehensive training</li>
+                    <li>Realistic practice tests</li>
+                    <li>Focus on all question types</li>
+                    <li>Score-boosting strategies</li>
+                    <li>Small batch sizes for individual attention</li>
+                </ul>
+                <button onclick="window.location.href='courses.html'" class="btn">Know More About PTE</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Achievements Section -->
+    <section id="achievements">
+        <h2 class="section-title">Our Achievements</h2>
+        <div class="achievements-container">
+            <div class="achievement-card">
+                <h3>Countless</h3>
+                <p>Successful Visa Applications</p>
+            </div>
+            <div class="achievement-card">
+                <h3>98%</h3>
+                <p>Visa Approval Rate</p>
+            </div>
+            <div class="achievement-card">
+                <h3>15+</h3>
+                <p>Years of Experienced Trainers</p>
+            </div>
+            <div class="achievement-card">
+                <h3>100+</h3>
+                <p>Universities Partnerships</p>
+            </div>
+            <div class="achievement-card">
+                <h3>25+</h3>
+                <p>Countries We Serve</p>
+            </div>
+            <div class="achievement-card">
+                <h3>24/7</h3>
+                <p>Client Support</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Find Us Section -->
+    <section id="find-us">
+        <h2 class="section-title">Find Us</h2>
+        <div class="contact-info">
+            <div class="contact-card">
+                <h3>Address</h3>
+                <p>178 Model Town, Pehowa</p>
+                <p>District - Kurukshetra</p>
+                <p>Haryana, India</p>
+            </div>
+            <div class="contact-card">
+                <h3>Contact</h3>
+                <p>Phone: +91 7015733346</p>
+                <p>Email: thevisascholar@gmail.com</p>
+            </div>
+            <div class="contact-card">
+                <h3>Working Hours</h3>
+                <p>Monday - Friday: 9AM - 7PM</p>
+                <p>Saturday: 10AM - 5PM</p>
+                <p>Sunday: Closed</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Apply Section -->
+    <section id="apply">
+        <h2 class="section-title">Apply Now</h2>
+        <form class="apply-form">
+            <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input type="text" id="fullName" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" required>
+            </div>
+            <div class="form-group">
+                <label for="country">Country of Interest</label>
+                <select id="country" required>
+                    <option value="">Select a country</option>
+                    <option value="canada">Canada</option>
+                    <option value="australia">Australia</option>
+                    <option value="usa">USA</option>
+                    <option value="uk">UK</option>
+                    <option value="germany">Germany</option>
+                    <option value="new-zealand">New Zealand</option>
+                    <option value="singapore">Singapore</option>
+                    <option value="Cyprus">Cyprus</option>
+                    <option value="france">France</option>
+                    <option value="malta">Malta</option>
+                    <option value="japan">Japan</option>
+                    <option value="italy">Italy</option>
+                    <option value="sweden">Sweden</option>
+                    <option value="netherlands">Netherlands</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="visaType">Visa Type</label>
+                <select id="visaType" required>
+                    <option value="">Select visa type</option>
+                    <option value="student">Student Visa</option>
+                    <option value="work">Work Visa</option>
+                    <option value="tourist">Tourist Visa</option>
+                    <option value="pr">Permanent Residency</option>
+                    <option value="business">Business Visa</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="message">Additional Information</label>
+                <textarea id="message" rows="4"></textarea>
+            </div>
+            <button type="submit" class="btn">Submit Application</button>
+        </form>
+    </section>
+
+    <!-- Chatbot -->
+    <div class="chatbot-toggle" id="chatbotToggle">
+        <i class="fas fa-robot"></i>
+    </div>
+    <div class="chatbot-container" id="chatbotContainer">
+        <div class="chatbot-header">
+            <h3>The Visa Scholar Assistant</h3>
+            <button class="close-chatbot" id="closeChatbot">&times;</button>
+        </div>
+        <div class="chatbot-messages" id="chatbotMessages">
+            <div class="message bot-message">
+                Hello! I'm your Visa Scholar assistant. How can I help you with your visa or immigration questions today?
+            </div>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" id="userInput" placeholder="Type your question here...">
+            <button id="sendMessage"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="https://cdn.shopify.com/s/files/1/0506/5696/8898/files/logo_TVS.png?v=1746614106" alt="The Visa Scholar Logo">
+            </div>
+            <div class="footer-links">
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#countries">Countries</a>
+                <a href="#courses">Courses</a>
+                <a href="#achievements">Achievements</a>
+                <a href="#find-us">Find Us</a>
+                <a href="#apply">Apply</a>
+            </div>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+            <div class="copyright">
+                &copy; 2025 The Visa Scholar. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Auth Modal Functionality
+        const authModal = document.getElementById('authModal');
+        const closeAuth = document.getElementById('closeAuth');
+        const authToggle = document.getElementById('authToggle');
+        const loginForm = document.getElementById('loginForm');
+        const signupForm = document.getElementById('signupForm');
+        const authTitle = document.getElementById('authTitle');
+        const userProfile = document.getElementById('userProfile');
+        const userMenu = document.getElementById('userMenu');
+        const usernameDisplay = document.getElementById('usernameDisplay');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const exploreBtn = document.getElementById('exploreBtn');
+        const chatbotBtn = document.getElementById('chatbotBtn');
+        const chatbotToggle = document.getElementById('chatbotToggle');
+        const chatbotContainer = document.getElementById('chatbotContainer');
+        const closeChatbot = document.getElementById('closeChatbot');
+        const chatbotMessages = document.getElementById('chatbotMessages');
+        const userInput = document.getElementById('userInput');
+        const sendMessage = document.getElementById('sendMessage');
+        const installAppBtn = document.getElementById('installAppBtn');
+        const countryCards = document.querySelectorAll('.country-card');
+
+        // Check if user is logged in
+        let isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        let currentUser = localStorage.getItem('currentUser') || 'Login';
+
+        // Update UI based on login status
+        function updateLoginStatus() {
+            if (isLoggedIn) {
+                usernameDisplay.textContent = currentUser;
+                userProfile.querySelector('i').className = 'fas fa-user-check';
+            } else {
+                usernameDisplay.textContent = 'Login';
+                userProfile.querySelector('i').className = 'fas fa-user';
+            }
+        }
+
+        // Initialize
+        updateLoginStatus();
+
+        // Show auth modal when clicking login/profile
+        userProfile.addEventListener('click', (e) => {
+            if (!isLoggedIn) {
+                authModal.style.display = 'flex';
+                loginForm.style.display = 'flex';
+                signupForm.style.display = 'none';
+                authTitle.textContent = 'Login';
+                authToggle.textContent = "Don't have an account? Sign Up";
+            } else {
+                userMenu.style.display = userMenu.style.display === 'block' ? 'none' : 'block';
+            }
+        });
+
+        // Close auth modal
+        closeAuth.addEventListener('click', () => {
+            authModal.style.display = 'none';
+        });
+
+        // Toggle between login and signup forms
+        authToggle.addEventListener('click', () => {
+            if (loginForm.style.display === 'none') {
+                loginForm.style.display = 'flex';
+                signupForm.style.display = 'none';
+                authTitle.textContent = 'Login';
+                authToggle.textContent = "Don't have an account? Sign Up";
+            } else {
+                loginForm.style.display = 'none';
+                signupForm.style.display = 'flex';
+                authTitle.textContent = 'Sign Up';
+                authToggle.textContent = "Already have an account? Login";
+            }
+        });
+
+        // Handle login form submission
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = loginForm.querySelector('input[type="email"]').value;
+            const password = loginForm.querySelector('input[type="password"]').value;
+            
+            // Simple validation
+            if (email && password) {
+                isLoggedIn = true;
+                currentUser = email.split('@')[0];
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('currentUser', currentUser);
+                updateLoginStatus();
+                authModal.style.display = 'none';
+                alert('Login successful! Welcome back, ' + currentUser + '!');
+            } else {
+                alert('Please enter both email and password');
+            }
+        });
+
+        // Handle signup form submission
+        signupForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = signupForm.querySelector('input[type="text"]').value;
+            const email = signupForm.querySelector('input[type="email"]').value;
+            const password = signupForm.querySelectorAll('input[type="password"]')[0].value;
+            const confirmPassword = signupForm.querySelectorAll('input[type="password"]')[1].value;
+            
+            // Simple validation
+            if (name && email && password && confirmPassword) {
+                if (password === confirmPassword) {
+                    isLoggedIn = true;
+                    currentUser = name;
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('currentUser', currentUser);
+                    updateLoginStatus();
+                    authModal.style.display = 'none';
+                    alert('Signup successful! Welcome, ' + currentUser + '!');
+                } else {
+                    alert('Passwords do not match');
+                }
+            } else {
+                alert('Please fill in all fields');
+            }
+        });
+
+        // Handle logout
+        logoutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            isLoggedIn = false;
+            currentUser = 'Login';
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('currentUser');
+            updateLoginStatus();
+            userMenu.style.display = 'none';
+            alert('You have been logged out successfully.');
+        });
+
+        // Close user menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!userProfile.contains(e.target) && !userMenu.contains(e.target)) {
+                userMenu.style.display = 'none';
+            }
+        });
+
+        // Explore button scroll to about section
+        exploreBtn.addEventListener('click', () => {
+            document.getElementById('about').scrollIntoView({ behavior: 'smooth' });
+            exploreBtn.classList.add('bounce');
+            setTimeout(() => {
+                exploreBtn.classList.remove('bounce');
+            }, 1000);
+        });
+
+        // Add bounce animation to all buttons when clicked
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('click', function() {
+                this.classList.add('bounce');
+                setTimeout(() => {
+                    this.classList.remove('bounce');
+                }, 1000);
+            });
+        });
+
+        // Chatbot functionality
+        chatbotBtn.addEventListener('click', () => {
+            chatbotContainer.style.display = 'flex';
+        });
+
+        chatbotToggle.addEventListener('click', () => {
+            chatbotContainer.style.display = chatbotContainer.style.display === 'flex' ? 'none' : 'flex';
+        });
+
+        closeChatbot.addEventListener('click', () => {
+            chatbotContainer.style.display = 'none';
+        });
+
+        // Chatbot responses
+        const chatbotResponses = {
+            "hello": "Hello! How can I assist you with your visa or immigration questions today?",
+            "hi": "Hi there! What visa information are you looking for?",
+            "canada": "Canada offers various visa options including Student Visa, Work Permit, and Express Entry for Permanent Residency. The processing time varies from 2 weeks to 6 months depending on the visa type. For more information please contact our consultants.",
+            "australia": "Australia has skilled migration visas (subclass 189, 190), student visas (subclass 500), and work visas (subclass 482). The point-based system considers age, education, work experience, and English proficiency. For more information please contact our consultants.",
+            "usa": "The USA offers F-1 student visas, H-1B work visas, and Green Cards for permanent residency. Processing times vary greatly depending on visa category and country of origin. For more information please contact our consultants.",
+            "uk": "The UK has Tier 4 student visas, Skilled Worker visas, and various investor visas. The new points-based system considers job offer, salary threshold, and English language ability. For more information please contact our consultants.",
+            "germany": "Germany offers student visas, job seeker visas, and EU Blue Cards for skilled workers. Germany has relatively fast processing times compared to other countries. For more information please contact our consultants.",
+            "new-zealand": "New Zealand has student visas, work visas, and skilled migrant category visas. Their immigration system is points-based similar to Australia and Canada. For more information please contact our consultants.",
+            "singapore": "Singapore offers Student Passes, Employment Passes, and Permanent Residency options. The requirements are strict but processing is usually efficient. For more information please contact our consultants.",
+            "france": "France has student visas, work visas, and talent passports for skilled workers. France is part of the Schengen area allowing travel to other European countries. For more information please contact our consultants.",
+            "cyprus": "Cyprus offers student visas, work permits, and investment-based residency programs. The country is popular for its affordable education and pathway to EU residency. Student visa processing typically takes 2-4 weeks. For more information please contact our consultants.",
+            "malta": "Malta provides student visas, work permits, and residency programs including the Malta Permanent Residence Programme. As an EU country, Malta offers access to the Schengen area. Visa processing times are usually 4-8 weeks. For more information please contact our consultants.",
+            "japan": "Japan offers student visas, work visas, and highly skilled professional visas. The country has specific requirements including sponsorship for work visas. Processing times vary from 1-3 months. For more information please contact our consultants.",
+            "italy": "Italy provides student visas, work permits, and elective residence visas. The country is part of the Schengen area. Visa processing typically takes 2-6 weeks. For more information please contact our consultants.",
+            "sweden": "Sweden offers student visas, work permits, and residence permits for skilled workers. The country has a points-based system for some visa categories. Processing times range from 1-6 months. For more information please contact our consultants.",
+            "netherlands": "The Netherlands provides student visas, work permits, and highly skilled migrant visas. The country is known for its efficient immigration processes. Processing times vary from 2 weeks to 3 months. For more information please contact our consultants.",
+            "ielts": "IELTS (International English Language Testing System) is required for study, work or migration to English-speaking countries. The Visa Scholar offers comprehensive IELTS preparation courses with expert trainers.",
+            "pte": "PTE Academic is a computer-based English test accepted by many countries for visa applications. It's known for fast results (typically within 2 days) and objective scoring.",
+            "requirements": "Visa requirements vary by country but typically include: valid passport, financial proof, health insurance, clean criminal record, and sometimes language test results. Our consultants can provide exact requirements for your situation.",
+            "processing time": "Processing times vary greatly: Student visas (2-8 weeks), Work visas (1-6 months), PR applications (6 months to 2 years). We can help expedite where possible.",
+            "cost": "For cost contact us. Type contact",
+            "address": "178 Model Town, Pehowa District - Kurukshetra Haryana, India",
+            "contact": "You can contact us directly at thevisascholar@gmail.com or +91 7015733346.",
+            "rejection": "Common rejection reasons include incomplete documentation, insufficient funds, unclear purpose of visit, or failure to meet eligibility criteria. We can review your case to minimize rejection risks.",
+            "help": "I can provide general information about visas for Canada, Australia, USA, UK, Germany, New Zealand, Singapore, Cyprus, France, Malta, Japan, Italy, Sweden, and Netherlands. For specific advice, our consultants are available for one-on-one sessions.",
+            "thanks": "You're welcome! Let me know if you have any other questions about visas or immigration.",
+            "bye": "Goodbye! Feel free to return if you have more questions. You can also contact us directly at thevisascholar@gmail.com or +91 7015733346."
+        };
+
+        // Default response
+        const defaultResponse = "I'm sorry, I didn't understand that. I can provide information about visas for Canada, Australia, USA, UK, Germany, New Zealand, Singapore, Cyprus, France, Malta, Japan, Italy, Sweden, and Netherlands. Could you rephrase your question?";
+
+        // Send message function
+        function sendChatbotMessage() {
+            const message = userInput.value.trim();
+            if (message) {
+                // Add user message to chat
+                const userMessage = document.createElement('div');
+                userMessage.className = 'message user-message';
+                userMessage.textContent = message;
+                chatbotMessages.appendChild(userMessage);
+                
+                // Clear input
+                userInput.value = '';
+                
+                // Scroll to bottom
+                chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+                
+                // Bot response (after short delay)
+                setTimeout(() => {
+                    let response = defaultResponse;
+                    const lowerMessage = message.toLowerCase();
+                    
+                    // Check for matching keywords
+                    for (const keyword in chatbotResponses) {
+                        if (lowerMessage.includes(keyword)) {
+                            response = chatbotResponses[keyword];
+                            break;
+                        }
+                    }
+                    
+                    // Add bot message to chat
+                    const botMessage = document.createElement('div');
+                    botMessage.className = 'message bot-message';
+                    botMessage.textContent = response;
+                    chatbotMessages.appendChild(botMessage);
+                    
+                    // Scroll to bottom
+                    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+                }, 500);
+            }
+        }
+
+        // Send message on button click
+        sendMessage.addEventListener('click', sendChatbotMessage);
+
+        // Send message on Enter key
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendChatbotMessage();
+            }
+        });
+
+        // Country card click handler
+        countryCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const country = card.getAttribute('data-country');
+                const countryName = card.querySelector('.country-name').textContent;
+                
+                // Get response from chatbotResponses or use default
+                const response = chatbotResponses[country] || 
+                    `${countryName} offers various visa options. For detailed information about ${countryName} visas, please contact our consultants.`;
+                
+                // Add bot message about the country
+                const botMessage = document.createElement('div');
+                botMessage.className = 'message bot-message';
+                botMessage.textContent = response;
+                
+                // Open chatbot and add message
+                chatbotContainer.style.display = 'flex';
+                chatbotMessages.appendChild(botMessage);
+                chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+            });
+        });
+
+        // Show auth modal on page load (if not logged in)
+        window.addEventListener('load', () => {
+            if (!isLoggedIn) {
+                setTimeout(() => {
+                    authModal.style.display = 'flex';
+                }, 1000);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Visa Scholar - Courses</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --gold: #FFD700;
+            --dark-gold: #D4AF37;
+            --black: #000000;
+            --dark-gray: #121212;
+            --light-gray: #1E1E1E;
+            --gold-gradient: linear-gradient(135deg, #4B0101, #FFD700, #B8860B, #4B0101);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Georgia', sans-serif;
+        }
+
+        body {
+            background-color: var(--black);
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(to right, var(--black) 0%, var(--dark-gray) 50%, var(--black) 100%);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--gold);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-container img {
+            height: 50px;
+            margin-right: 1rem;
+        }
+
+        .logo-text h1 {
+            color: var(--gold);
+            font-size: 1.5rem;
+        }
+
+        .logo-text p {
+            font-size: 0.8rem;
+            color: white;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        nav ul li a:hover {
+            color: var(--gold);
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--gold);
+            transition: width 0.3s;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        /* Section Styles */
+        section {
+            padding: 4rem 2rem;
+            min-height: 100vh;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .section-title {
+            color: var(--gold);
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 3px;
+            background-color: var(--gold);
+            margin: 0.5rem auto;
+        }
+
+        /* Courses Section */
+        .courses-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .course-card {
+            background-color: var(--dark-gray);
+            border-radius: 10px;
+            padding: 2rem;
+            width: 100%;
+            max-width: 600px;
+            border: 1px solid var(--gold);
+            transition: transform 0.3s;
+        }
+
+        .course-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.2);
+        }
+
+        .course-card h3 {
+            color: var(--gold);
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            border-bottom: 1px solid var(--gold);
+            padding-bottom: 0.5rem;
+        }
+
+        .course-card p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .course-card ul {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .course-card li {
+            margin-bottom: 0.5rem;
+        }
+
+        .course-card .course-highlights {
+            background-color: rgba(255, 215, 0, 0.1);
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1.5rem 0;
+            border-left: 3px solid var(--gold);
+        }
+
+        .course-card .course-highlights h4 {
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--gold-gradient);
+            color: var(--black);
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            margin: 1rem 0.5rem;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: var(--dark-gold);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.3);
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: var(--dark-gray);
+            padding: 2rem;
+            text-align: center;
+            border-top: 2px solid var(--gold);
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .footer-logo img {
+            height: 50px;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--gold);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-icons a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: var(--gold);
+        }
+
+        .copyright {
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .logo-container {
+                margin-bottom: 1rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav ul li {
+                margin: 0.5rem 0;
+            }
+
+            .course-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo-container">
+            <img src="https://cdn.shopify.com/s/files/1/0506/5696/8898/files/logo_TVS.png?v=1746614106" alt="The Visa Scholar Logo">
+            <div class="logo-text">
+                <h1>The Visa Scholar</h1>
+                <p>Immigration and Overseas Consultant</p>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="home.html#countries">Countries</a></li>
+                <li><a href="courses.html">Courses</a></li>
+                <li><a href="home.html#achievements">Achievements</a></li>
+                <li><a href="home.html#find-us">Find Us</a></li>
+                <li><a href="home.html#apply">Apply</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Courses Section -->
+    <section id="courses">
+        <h2 class="section-title">Our Courses</h2>
+        <div class="courses-container">
+            <div class="course-card">
+                <h3>IELTS Preparation</h3>
+                <p>The International English Language Testing System (IELTS) is the world's most popular English language proficiency test for higher education and global migration. Our comprehensive IELTS preparation course is designed to help you achieve your desired band score for study, work, or migration purposes.</p>
+                
+                <div class="course-highlights">
+                    <h4>Why Choose Our IELTS Program?</h4>
+                    <p>With a success rate of over 95% in helping students achieve their target scores, our program combines expert instruction, personalized feedback, and proven strategies to maximize your performance in all four test components.</p>
+                </div>
+                
+                <p><strong>Course Structure:</strong></p>
+                <ul>
+                    <li><strong>Listening Module:</strong> Master techniques for different question types including multiple choice, matching, plan/map/diagram labeling, form/note/table/flow-chart/summary completion, and sentence completion.</li>
+                    <li><strong>Reading Module:</strong> Develop skills for academic and general training readings, with strategies for true/false/not given, matching headings, sentence completion, and short-answer questions.</li>
+                    <li><strong>Writing Module:</strong> Learn how to structure Task 1 (report writing) and Task 2 (essay writing) responses effectively with model answers and personalized feedback.</li>
+                    <li><strong>Speaking Module:</strong> Practice all three parts of the speaking test with experienced examiners, focusing on fluency, vocabulary, grammar, and pronunciation.</li>
+                </ul>
+                
+                <p><strong>Course Features:</strong></p>
+                <ul>
+                    <li>60+ hours of intensive training (4 weeks full-time or 8 weeks part-time)</li>
+                    <li>10 full-length mock tests under exam conditions</li>
+                    <li>Personalized study plan based on diagnostic testing</li>
+                    <li>Expert trainers with 10+ years IELTS teaching experience</li>
+                    <li>Small class sizes (maximum 8 students per batch)</li>
+                    <li>Flexible batch timings (morning, afternoon, evening, weekend)</li>
+                    <li>Comprehensive study materials including Cambridge IELTS books</li>
+                    <li>Regular progress reports and one-on-one feedback sessions</li>
+                    <li>Access to online practice portal with 1000+ questions</li>
+                </ul>
+                
+                <p><strong>Who Should Attend:</strong></p>
+                <ul>
+                    <li>Students planning to study abroad in English-speaking countries</li>
+                    <li>Professionals seeking work visas or professional registration</li>
+                    <li>Individuals applying for permanent residency</li>
+                    <li>Anyone wanting to certify their English proficiency</li>
+                </ul>
+                
+                <button onclick="window.location.href='ielts.html'" class="btn">Enroll Now</button>
+                <button class="btn">Request Brochure</button>
+            </div>
+            
+            <div class="course-card">
+                <h3>PTE Academic</h3>
+                <p>Pearson Test of English (PTE) Academic is a computer-based academic English language test aimed at non-native English speakers wanting to study abroad. Recognized by universities, colleges and governments around the world, PTE Academic delivers fast results (typically within 2 business days).</p>
+                
+                <div class="course-highlights">
+                    <h4>Why Choose PTE Academic?</h4>
+                    <p>With completely computer-based testing and scoring, PTE Academic offers unbiased results and fast turnaround. Our course helps you master the test format and question types to maximize your score potential.</p>
+                </div>
+                
+                <p><strong>Course Structure:</strong></p>
+                <ul>
+                    <li><strong>Speaking & Writing (77-93 minutes):</strong> Personal introduction, read aloud, repeat sentence, describe image, re-tell lecture, answer short question, summarize written text, and essay writing.</li>
+                    <li><strong>Reading (32-41 minutes):</strong> Multiple choice questions, re-order paragraphs, and fill in the blanks (reading and writing).</li>
+                    <li><strong>Listening (45-57 minutes):</strong> Summarize spoken text, multiple choice questions, fill the blanks, highlight correct summary, select missing word, highlight incorrect words, and write from dictation.</li>
+                </ul>
+                
+                <p><strong>Course Features:</strong></p>
+                <ul>
+                    <li>50+ hours of comprehensive training (3 weeks full-time or 6 weeks part-time)</li>
+                    <li>8 full-length computer-based mock tests</li>
+                    <li>Focus on all 20 different question types</li>
+                    <li>Score-boosting strategies for each section</li>
+                    <li>Small batch sizes (maximum 6 students per batch)</li>
+                    <li>Flexible scheduling options</li>
+                    <li>Official PTE practice materials and resources</li>
+                    <li>Detailed performance analytics</li>
+                    <li>Access to AI-powered scoring tools</li>
+                    <li>Test-taking strategies for computer-based format</li>
+                </ul>
+                
+                <p><strong>Key Advantages of PTE:</strong></p>
+                <ul>
+                    <li>Fast results - typically within 2 business days</li>
+                    <li>Unlimited score reports to institutions</li>
+                    <li>Frequent test dates available</li>
+                    <li>Fair and unbiased computer scoring</li>
+                    <li>Accepted by thousands of academic programs worldwide</li>
+                    <li>Approved for Australian and New Zealand visa applications</li>
+                </ul>
+                
+                <p><strong>Who Should Attend:</strong></p>
+                <ul>
+                    <li>Students applying to universities that accept PTE scores</li>
+                    <li>Professionals needing English certification for work visas</li>
+                    <li>Applicants for Australian and New Zealand immigration</li>
+                    <li>Those who prefer computer-based testing over face-to-face speaking exams</li>
+                </ul>
+                
+                <button onclick="window.location.href='pte.html'" class="btn">Enroll Now</button>
+                <button class="btn">Book Free Demo</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="https://cdn.shopify.com/s/files/1/0506/5696/8898/files/logo_TVS.png?v=1746614106" alt="The Visa Scholar Logo">
+            </div>
+            <div class="footer-links">
+                <a href="home.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="home.html#countries">Countries</a>
+                <a href="courses.html">Courses</a>
+                <a href="home.html#achievements">Achievements</a>
+                <a href="home.html#find-us">Find Us</a>
+                <a href="home.html#apply">Apply</a>
+            </div>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+            <div class="copyright">
+                &copy; 2025 The Visa Scholar. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+
+        // Button hover effect
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+                this.style.boxShadow = '0 10px 20px rgba(255, 215, 0, 0.3)';
+            });
+            button.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = 'none';
+            });
+        });
+    </script>
+</body>
+</html>

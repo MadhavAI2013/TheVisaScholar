@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Visa Scholar - PTE Academic Enrollment</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --gold: #FFD700;
+            --dark-gold: #D4AF37;
+            --black: #000000;
+            --dark-gray: #121212;
+            --light-gray: #1E1E1E;
+            --gold-gradient: linear-gradient(135deg, #4B0101, #FFD700, #B8860B, #4B0101);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Georgia', sans-serif;
+        }
+
+        body {
+            background-color: var(--black);
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(to right, var(--black) 0%, var(--dark-gray) 50%, var(--black) 100%);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--gold);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-container img {
+            height: 50px;
+            margin-right: 1rem;
+        }
+
+        .logo-text h1 {
+            color: var(--gold);
+            font-size: 1.5rem;
+        }
+
+        .logo-text p {
+            font-size: 0.8rem;
+            color: white;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        nav ul li a:hover {
+            color: var(--gold);
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--gold);
+            transition: width 0.3s;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        /* Section Styles */
+        section {
+            padding: 4rem 2rem;
+            min-height: 100vh;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .section-title {
+            color: var(--gold);
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 3px;
+            background-color: var(--gold);
+            margin: 0.5rem auto;
+        }
+
+        /* Course Content Styles */
+        .course-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: var(--dark-gray);
+            border-radius: 10px;
+            padding: 3rem;
+            border: 1px solid var(--gold);
+        }
+
+        .course-highlights {
+            background-color: rgba(255, 215, 0, 0.1);
+            padding: 1.5rem;
+            border-radius: 5px;
+            margin: 2rem 0;
+            border-left: 3px solid var(--gold);
+        }
+
+        .course-highlights h4 {
+            color: var(--gold);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .course-content h3 {
+            color: var(--gold);
+            margin: 2rem 0 1rem;
+            font-size: 1.8rem;
+            border-bottom: 1px solid var(--gold);
+            padding-bottom: 0.5rem;
+        }
+
+        .course-content p {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .course-content ul {
+            margin-bottom: 1.5rem;
+            padding-left: 2rem;
+        }
+
+        .course-content li {
+            margin-bottom: 0.8rem;
+        }
+
+        /* Form Styles */
+        .enrollment-form {
+            background-color: rgba(255, 215, 0, 0.1);
+            padding: 2rem;
+            border-radius: 10px;
+            margin-top: 3rem;
+            border: 1px solid var(--gold);
+        }
+
+        .enrollment-form h3 {
+            color: var(--gold);
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 5px;
+            border: 1px solid var(--gold);
+            background-color: var(--light-gray);
+            color: white;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--gold-gradient);
+            color: var(--black);
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            margin: 1rem 0.5rem;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: var(--dark-gold);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .btn-container {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: var(--dark-gray);
+            padding: 2rem;
+            text-align: center;
+            border-top: 2px solid var(--gold);
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .footer-logo img {
+            height: 50px;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--gold);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-icons a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: var(--gold);
+        }
+
+        .copyright {
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .logo-container {
+                margin-bottom: 1rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav ul li {
+                margin: 0.5rem 0;
+            }
+
+            .course-content {
+                padding: 1.5rem;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .enroll-nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo-container">
+            <img src="https://cdn.shopify.com/s/files/1/0506/5696/8898/files/logo_TVS.png?v=1746614106" alt="The Visa Scholar Logo">
+            <div class="logo-text">
+                <h1>The Visa Scholar</h1>
+                <p>Immigration and Overseas Consultant</p>
+            </div>
+        </div>
+        <nav>
+            <ul>
+            <li><a href="#course-overview">Course Overview</a></li>
+            <li><a href="#structure">Course Structure</a></li>
+            <li><a href="#features">Course Features</a></li>
+            <li><a href="#advantages">Key Advantages</a></li>
+            <li><a href="#who-should-attend">Who Should Attend</a></li>
+            <li><a href="#enrollment">Enrollment</a></li>
+            <li><a href="home.html">Return to Home</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <section id="course-overview">
+        <h2 class="section-title">PTE Academic Course Enrollment</h2>
+        <div class="course-content">
+            <h3>PTE Academic</h3>
+            <p>Pearson Test of English (PTE) Academic is a computer-based academic English language test aimed at non-native English speakers wanting to study abroad. Recognized by universities, colleges and governments around the world, PTE Academic delivers fast results (typically within 2 business days).</p>
+            
+            <div class="course-highlights">
+                <h4>Why Choose PTE Academic?</h4>
+                <p>With completely computer-based testing and scoring, PTE Academic offers unbiased results and fast turnaround. Our course helps you master the test format and question types to maximize your score potential.</p>
+            </div>
+
+            <div id="structure">
+                <h3>Course Structure</h3>
+                <ul>
+                    <li><strong>Speaking & Writing (77-93 minutes):</strong> Personal introduction, read aloud, repeat sentence, describe image, re-tell lecture, answer short question, summarize written text, and essay writing.</li>
+                    <li><strong>Reading (32-41 minutes):</strong> Multiple choice questions, re-order paragraphs, and fill in the blanks (reading and writing).</li>
+                    <li><strong>Listening (45-57 minutes):</strong> Summarize spoken text, multiple choice questions, fill the blanks, highlight correct summary, select missing word, highlight incorrect words, and write from dictation.</li>
+                </ul>
+            </div>
+
+            <div id="features">
+                <h3>Course Features</h3>
+                <ul>
+                    <li>50+ hours of comprehensive training (3 weeks full-time or 6 weeks part-time)</li>
+                    <li>8 full-length computer-based mock tests</li>
+                    <li>Focus on all 20 different question types</li>
+                    <li>Score-boosting strategies for each section</li>
+                    <li>Small batch sizes (maximum 6 students per batch)</li>
+                    <li>Flexible scheduling options</li>
+                    <li>Official PTE practice materials and resources</li>
+                    <li>Detailed performance analytics</li>
+                    <li>Access to AI-powered scoring tools</li>
+                    <li>Test-taking strategies for computer-based format</li>
+                </ul>
+            </div>
+
+            <div id="advantages">
+                <h3>Key Advantages of PTE</h3>
+                <ul>
+                    <li>Fast results - typically within 2 business days</li>
+                    <li>Unlimited score reports to institutions</li>
+                    <li>Frequent test dates available</li>
+                    <li>Fair and unbiased computer scoring</li>
+                    <li>Accepted by thousands of academic programs worldwide</li>
+                    <li>Approved for Australian and New Zealand visa applications</li>
+                </ul>
+            </div>
+
+            <div id="who-should-attend">
+                <h3>Who Should Attend</h3>
+                <ul>
+                    <li>Students applying to universities that accept PTE scores</li>
+                    <li>Professionals needing English certification for work visas</li>
+                    <li>Applicants for Australian and New Zealand immigration</li>
+                    <li>Those who prefer computer-based testing over face-to-face speaking exams</li>
+                </ul>
+            </div>
+
+            <div id="enrollment" class="enrollment-form">
+                <h3>Enrollment Form</h3>
+                <form>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="first-name">First Name</label>
+                            <input type="text" id="first-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="last-name">Last Name</label>
+                            <input type="text" id="last-name" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" id="address" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="city">City</label>
+                            <input type="text" id="city" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="country">Country</label>
+                            <input type="text" id="country" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="zip">ZIP/Postal Code</label>
+                            <input type="text" id="zip" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="course-type">Course Type</label>
+                            <select id="course-type" required>
+                                <option value="">Select an option</option>
+                                <option value="full-time">Full-time (3 weeks)</option>
+                                <option value="part-time">Part-time (6 weeks)</option>
+                                <option value="weekend">Weekend Batch</option>
+                                <option value="custom">Custom Schedule</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="target-score">Target PTE Score</label>
+                            <select id="target-score" required>
+                                <option value="">Select target score</option>
+                                <option value="50">50</option>
+                                <option value="58">58</option>
+                                <option value="65">65</option>
+                                <option value="72">72</option>
+                                <option value="79">79</option>
+                                <option value="86+">86+</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Additional Information</label>
+                        <textarea id="message" rows="4"></textarea>
+                    </div>
+                    
+                    <div class="btn-container">
+                        <button type="submit" class="btn">Submit Enrollment</button>
+                        <button type="button" class="btn" onclick="window.location.href='courses.html'">Back to Courses</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="https://cdn.shopify.com/s/files/1/0506/5696/8898/files/logo_TVS.png?v=1746614106" alt="The Visa Scholar Logo">
+            </div>
+            <div class="footer-links">
+                <a href="#course-overview">Course Overview</a>
+                <a href="#structure">Course Structure</a>
+                <a href="#features">Course Features</a>
+                <a href="#advantages">Key Advantages</a>
+                <a href="#who-should-attend">Who Should Attend</a>
+                <a href="#enrollment">Enrollment</a>
+                <a href="home.html">Return to Home</a>
+            </div>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+            <div class="copyright">
+                &copy; 2025 The Visa Scholar. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Button hover effect
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+                this.style.boxShadow = '0 10px 20px rgba(255, 215, 0, 0.3)';
+            });
+            button.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = 'none';
+            });
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('.enroll-nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                if (this.getAttribute('href').startsWith('#')) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

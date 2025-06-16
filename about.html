@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Visa Scholar - About Us</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --gold: #FFD700;
+            --dark-gold: #D4AF37;
+            --black: #000000;
+            --dark-gray: #121212;
+            --light-gray: #1E1E1E;
+            --gold-gradient: linear-gradient(135deg, #4B0101, #FFD700, #B8860B, #4B0101);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Georgia', sans-serif;
+        }
+
+        body {
+            background-color: var(--black);
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* Auth Modal Styles */
+        .auth-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .auth-container {
+            background: linear-gradient(135deg, var(--black) 0%, var(--dark-gray) 100%);
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+            border: 2px solid var(--gold);
+            box-shadow: 0 0 20px var(--gold);
+            position: relative;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .auth-header img {
+            height: 50px;
+            margin-bottom: 1rem;
+        }
+
+        .auth-header h2 {
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .auth-form input {
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--gold);
+            border-radius: 5px;
+            background-color: var(--dark-gray);
+            color: white;
+        }
+
+        .auth-form button {
+            padding: 0.8rem;
+            background-color: var(--gold);
+            color: var(--black);
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .auth-form button:hover {
+            background-color: var(--dark-gold);
+        }
+
+        .auth-toggle {
+            text-align: center;
+            margin-top: 1rem;
+            color: var(--gold);
+            cursor: pointer;
+        }
+
+        .close-auth {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: var(--gold);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(to right, var(--black) 0%, var(--dark-gray) 50%, var(--black) 100%);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--gold);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-container img {
+            height: 50px;
+            margin-right: 1rem;
+        }
+
+        .logo-text h1 {
+            color: var(--gold);
+            font-size: 1.5rem;
+        }
+
+        .logo-text p {
+            font-size: 0.8rem;
+            color: white;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        nav ul li a:hover {
+            color: var(--gold);
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--gold);
+            transition: width 0.3s;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            color: var(--gold);
+            cursor: pointer;
+        }
+
+        .user-profile span {
+            margin-left: 0.5rem;
+        }
+
+        .user-menu {
+            display: none;
+            position: absolute;
+            top: 70px;
+            right: 20px;
+            background-color: var(--dark-gray);
+            border: 1px solid var(--gold);
+            border-radius: 5px;
+            padding: 0.5rem;
+            z-index: 10;
+        }
+
+        .user-menu a {
+            display: block;
+            color: white;
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+        }
+
+        .user-menu a:hover {
+            color: var(--gold);
+            background-color: var(--light-gray);
+        }
+
+        /* Section Styles */
+        section {
+            padding: 4rem 2rem;
+            min-height: 100vh;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .section-title {
+            color: var(--gold);
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 3px;
+            background-color: var(--gold);
+            margin: 0.5rem auto;
+        }
+
+        /* About Section */
+        .about-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+
+        .about-text {
+            flex: 1;
+            min-width: 300px;
+            padding: 1rem;
+        }
+
+        .about-text p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .about-image {
+            flex: 1;
+            min-width: 100px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .about-image img {
+            max-width: 70%;
+            border-radius: 10px;
+            border: 2px solid var(--gold);
+            transition: transform 0.5s;
+        }
+
+        .about-image img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Mission & Vision */
+        .mission-vision {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin: 6rem 0;
+        }
+
+        .mission, .vision {
+            flex: 1;
+            min-width: 300px;
+            background-color: var(--dark-gray);
+            padding: 2rem;
+            border-radius: 10px;
+            border: 1px solid var(--gold);
+        }
+
+        .mission h3, .vision h3 {
+            color: var(--gold);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+
+        /* Values Section */
+        .values {
+            margin: 5rem 0;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .value-card {
+            background-color: var(--dark-gray);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid var(--gold);
+            text-align: center;
+        }
+
+        .value-card i {
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        .value-card h4 {
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Team Section */
+        .team-section {
+            margin-top: 3rem;
+        }
+
+        .team-members {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .team-member {
+            text-align: center;
+            width: 250px;
+        }
+
+        .team-member img {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--gold);
+            margin-bottom: 1rem;
+            transition: transform 0.3s;
+        }
+
+        .team-member img:hover {
+            transform: scale(1.1);
+        }
+
+        .team-member h3 {
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .team-member p {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Button Styles */
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--gold-gradient);
+            color: var(--black);
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            margin: 1rem 0.5rem;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: var(--dark-gold);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.3);
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-20px);
+            }
+            60% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .btn.bounce {
+            animation: bounce 1s;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: var(--dark-gray);
+            padding: 2rem;
+            text-align: center;
+            border-top: 2px solid var(--gold);
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .footer-logo {
+            margin-bottom: 1rem;
+        }
+
+        .footer-logo img {
+            height: 50px;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--gold);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-icons a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: var(--gold);
+        }
+
+        .copyright {
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .logo-container {
+                margin-bottom: 1rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav ul li {
+                margin: 0.5rem 0;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-content h3 {
+                font-size: 1.8rem;
+            }
+
+            .about-content {
+                flex-direction: column;
+            }
+
+            .mission, .vision {
+                min-width: 100%;
+            }
+
+            .team-member {
+                width: 150px;
+            }
+
+            .team-member img {
+                width: 120px;
+                height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo-container">
+            <img src="https://cdn.shopify.com/s/files/1/0506/5696/8898/files/logo_TVS.png?v=1746614106" alt="The Visa Scholar Logo">
+            <div class="logo-text">
+                <h1>The Visa Scholar</h1>
+                <p>Immigration and Overseas Consultant</p>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="home.html#countries">Countries</a></li>
+                <li><a href="courses.html">Courses</a></li>
+                <li><a href="home.html#achievements">Achievements</a></li>
+                <li><a href="home.html#find-us">Find Us</a></li>
+                <li><a href="home.html#apply">Apply</a></li>
+            </ul>
+        </nav>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section id="about">
+        <h2 class="section-title">About Us</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <p>Welcome to The Visa Scholar, your premier destination for comprehensive immigration and overseas education solutions. With over a decade of experience in the industry, we have established ourselves as a trusted partner for individuals and families pursuing their dreams of international education, work opportunities, and permanent settlement abroad.</p>
+                
+                <p>Our journey began with a simple mission: to simplify the complex world of global immigration while maintaining the highest standards of integrity and professionalism. Today, we proudly serve clients across India and beyond, with a success rate that speaks volumes about our expertise and dedication.</p>
+                
+                <p>What sets The Visa Scholar apart is our holistic approach to immigration consulting. We don't just process applications; we build relationships and create personalized roadmaps for each client's unique aspirations. Our team of certified consultants stays abreast of the constantly evolving immigration policies of major destination countries, ensuring you receive the most current and accurate advice.</p>
+                
+                <p>Our services span the entire spectrum of immigration needs:</p>
+                <ul>
+                    <li>Comprehensive student visa assistance for top study destinations</li>
+                    <li>Work permit and skilled migration applications</li>
+                    <li>Permanent residency and citizenship guidance</li>
+                    <li>IELTS, PTE, and other language test preparation</li>
+                    <li>Documentation support and interview coaching</li>
+                </ul>
+                
+                <p>At The Visa Scholar, we understand that immigration is more than paperwork—it's about life-changing opportunities. That's why we combine technical expertise with genuine care for our clients' futures. From your initial consultation to your final visa approval, we're with you every step of the way.</p>
+                
+                <button onclick="window.location.href='home.html#find-us'" class="btn">Connect with Parul</button>
+
+            </div>
+            <div class="about-image">
+                <img src="https://i.postimg.cc/zfJvzzBp/Photo.jpg" alt="About The Visa Scholar">
+            </div>
+        </div>
+
+        <div class="mission-vision">
+            <div class="mission">
+                <h3>Our Mission</h3>
+                <p>At "The Visa Scholar", our mission is to empower individuals and families by providing clear, reliable, and up-to-date immigration and visa guidance. We strive to simplify the complex process of immigration, offering expert advice, comprehensive resources, and personalized support to help you achieve your dreams of living, working, and thriving abroad with confidence and ease.</p>
+                <br><strong>We are committed to integrity, transparency, and putting our clients' needs first at every step.</strong></br>
+            </div>
+            <div class="vision">
+                <h3>Our Vision</h3>
+                <p>Our vision is to be the most trusted and accessible platform for immigration and visa solutions worldwide, fostering a community where everyone has the opportunity to build a better future. We envision a world where borders are bridges to new possibilities, and our expertise helps unlock those opportunities for every aspiring traveler and immigrant.</p>
+                <br><strong>By leveraging innovation and expert knowledge, we aim to continuously improve and expand our services to meet the evolving needs of our clients.</strong></br>
+            </div>
+        </div>
+
+        <div class="values">
+            <h2 class="section-title">Our Core Values</h2>
+            <div class="values-grid">
+                <div class="value-card">
+                    <i class="fas fa-hand-holding-heart"></i>
+                    <h4>Integrity</h4>
+                    <p>We maintain the highest ethical standards, providing honest advice and transparent processes.</p>
+                </div>
+                <div class="value-card">
+                    <i class="fas fa-bullseye"></i>
+                    <h4>Excellence</h4>
+                    <p>We strive for perfection in every case, delivering exceptional results through meticulous attention to detail.</p>
+                </div>
+                <div class="value-card">
+                    <i class="fas fa-users"></i>
+                    <h4>Client-Centric</h4>
+                    <p>Your success is our priority. We listen, understand, and tailor solutions to your specific needs.</p>
+                </div>
+                <div class="value-card">
+                    <i class="fas fa-globe"></i>
+                    <h4>Global Perspective</h4>
+                    <p>With insights into multiple immigration systems, we offer comprehensive cross-border solutions.</p>
+                </div>
+                <div class="value-card">
+                    <i class="fas fa-lightbulb"></i>
+                    <h4>Innovation</h4>
+                    <p>We continuously evolve our methods to stay ahead in the dynamic field of immigration law.</p>
+                </div>
+                <div class="value-card">
+                    <i class="fas fa-heart"></i>
+                    <h4>Passion</h4>
+                    <p>We're driven by the joy of helping clients achieve their dreams of a better future abroad.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team">
+        <h2 class="section-title">Our Team</h2>
+        <div class="team-members">
+            <div class="team-member">
+                <img src="https://i.postimg.cc/q7zsJxg1/Whats-App-Image.jpg" alt="Parul Taneja">
+                <h3>Parul Taneja</h3>
+                <p>Managing Director</p>
+                <p>With over 15 years in immigration consultancy, Parul founded The Visa Scholar with a vision to create a client-focused immigration service. Her expertise spans all major destination countries.</p>
+            </div>
+            <div class="team-member">
+                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Rajiv Sharma">
+                <h3>Rajiv Sharma</h3>
+                <p>Visa Specialist</p>
+                <p>Rajiv specializes in complex visa cases with 12 years of experience handling appeals and difficult immigration scenarios across North America and Europe.</p>
+            </div>
+            <div class="team-member">
+                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Priya Patel">
+                <h3>Priya Patel</h3>
+                <p>Documentation Expert</p>
+                <p>Priya's meticulous approach ensures error-free applications. She has helped over 500 clients with document preparation and verification processes.</p>
+            </div>
+            <div class="team-member">
+                <img src="https://images.unsplash.com/photo-1552058544-f2b08422138a?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="Arjun Kapoor">
+                <h3>Arjun Kapoor</h3>
+                <p>Client Relations</p>
+                <p>Arjun ensures smooth communication between clients and our team, providing regular updates and addressing concerns throughout the immigration process.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="https://cdn.shopify.com/s/files/1/0506/5696/8898/files/logo_TVS.png?v=1746614106" alt="The Visa Scholar Logo">
+            </div>
+            <div class="footer-links">
+                <a href="home.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="home.html#countries">Countries</a>
+                <a href="courses.html">Courses</a>
+                <a href="home.html#achievements">Achievements</a>
+                <a href="home.html#find-us">Find Us</a>
+                <a href="home.html#apply">Apply</a>
+            </div>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+            <div class="copyright">
+                &copy; 2025 The Visa Scholar. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === authModal) {
+                authModal.style.display = 'none';
+            }
+        });
+
+        // Smooth scroll to team section
+        document.getElementById('exploreBtn').addEventListener('click', () => {
+            document.getElementById('team').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Connect button functionality
+        document.getElementById('connectBtn').addEventListener('click', () => {
+            alert('Thank you for your interest! A representative will contact you shortly.');
+        });
+    </script>
+</body>
+</html>
